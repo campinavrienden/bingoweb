@@ -55,11 +55,11 @@ jobs:
       - name: Prepare release files
         run: |
           mkdir release-assets
-          cp docker-compose.yaml release-assets/docker-compose.yaml
+          cp docker-compose.yml release-assets/docker-compose.yml
           cp .env-example release-assets/.env-example
 
           if [[ "${{ env.TAG_NAME }}" == dev-v* ]]; then
-            sed -i 's/:latest/:dev-latest/g' release-assets/docker-compose.yaml
+            sed -i 's/:latest/:dev-latest/g' release-assets/docker-compose.yml
           fi
 
       - name: Create GitHub Release
@@ -68,7 +68,7 @@ jobs:
           name: Release ${{ env.TAG_NAME }}
           tag_name: ${{ env.TAG_NAME }}
           files: |
-            release-assets/docker-compose.yaml
+            release-assets/docker-compose.yml
             release-assets/.env-example
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
