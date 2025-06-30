@@ -1,0 +1,87 @@
+version: '3.8'
+
+networks:
+  dev-network:
+    name: dev-network
+
+volumes:
+  npm-cache:
+  node_modules_web:
+
+services:
+  traefik:
+    image: "traefik:v2.10"
+    container_name: traefik
+    command:
+      - "--entrypoints.web.address=:80"
+      - "--api.dashboard=true"
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedByDefault=false"
+      - "--providers.docker.network=dev-network"
+      # - "--log.level=DEBUG" # Uncomment for debugging
+    ports:
+      - "80:80"     # The HTTP port
+      - "8080:8080" # The Web UI (dashboard)
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "./traefik/traefik.toml:/etc/traefik/traefik.toml:ro" # Path adjusted to new folder
+    networks:
+      - dev-network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.dashboard.rule=Host(`traefik.localhost`)"
+      - "traefik.http.routers.dashboard.service=api@internal"
+      - "traefik.http.routers.dashboard.entrypoints=web"
+
+  rabbitmq:
+    image: "rabbitmq:3-management"
+    container_name: rabbitmq
+    hostname: rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+    ports:
+      - "1883:1883"   # MQTT (standard)
+      - "15672:15672" # Management UI
+      - "15675:15675" # MQTT over WebSockets
+    networks:
+      - dev-network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.rabbitmq-dashboard.rule=Host(`rabbit.localhost`)"
+      - "traefik.http.routers.rabbitmq-dashboard.entrypoints=web"
+      - "traefik.http.services.rabbitmq-dashboard.loadbalancer.server.port=15672"
+
+  web:
+    build:
+      context: ./web
+      dockerfile: Dockerfile
+    container_name: web-app
+    volumes:
+      - ./web:/app
+      - npm-cache:/root/.npm # Mount npm cache volume
+      - node_modules_web:/app/node_modules # Mount node_modules volume
+    command: npm start
+    environment:
+      # This is important for hot-reloading on Windows/WSL2
+      - CHOKIDAR_USEPOLLING=true
+      - NODE_ENV=development
+      # Pass RabbitMQ host for direct MQTT connection from React app if needed, though we will use localhost:15675
+      - REACT_APP_MQTT_HOST=localhost
+      - REACT_APP_MQTT_WS_PORT=15675
+      # Pass credentials for the React app to connect to MQTT
+      - REACT_APP_MQTT_USERNAME=${RABBITMQ_DEFAULT_USER}
+      - REACT_APP_MQTT_PASSWORD=${RABBITMQ_DEFAULT_PASS}
+    networks:
+      - dev-network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.webapp.rule=Host(`app.localhost`)"
+      - "traefik.http.routers.webapp.entrypoints=web"
+      - "traefik.http.services.webapp.loadbalancer.server.port=3000"
+    depends_on:
+      - traefik # Ensure Traefik is up for routing, though not strictly required for web app dev server.
+    # This port mapping is not strictly necessary as Traefik handles routing,
+    # but it can be useful for direct debugging without Traefik.
+    # - "3000:3000"
