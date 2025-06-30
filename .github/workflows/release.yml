@@ -41,7 +41,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            docker-compose.yaml
+            docker-compose.yml
             .env-example
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
