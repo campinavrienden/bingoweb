@@ -5,14 +5,14 @@ import './App.css'
 import { useMQTT } from './hooks/useMQTT';
 import type { IBingo } from './models/IBingo';
 
-const BROKER_URL = 'ws://rabbitws.localhost:80/ws'; // adjust accordingly
+const BROKER_URL = window.RUNTIME_ENV.MQTTURL;
+
 const TOPIC = '/bingo';
 
 function App() {
   // const [count, setCount] = useState(0);
   const [bingo, setBingo] = useState<IBingo | null>(null);
   const { message, error } = useMQTT(BROKER_URL, TOPIC);
-
   useEffect(() => {
     if (message) {
       console.log(`Ontvangen: ${message.payload}`);

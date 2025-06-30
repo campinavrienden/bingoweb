@@ -1,0 +1,20 @@
+# Ignore local development Dockerfile
+Dockerfile-dev
+
+# Node dependencies (use clean install inside image)
+node_modules
+
+# Logs and environment files
+npm-debug.log
+.env
+.env.*
+
+# Vite / build cache
+dist
+.vite
+
+# Editor & OS junk
+.DS_Store
+*.swp
+.idea
+.vscode
