@@ -40,18 +40,6 @@ jobs:
           push: true
           tags: campinavrienden/bingoweb:${{ steps.set-tag.outputs.tag }}
 
-      - name: Upload docker-compose and env
-        uses: softprops/action-gh-release@v1
-        with:
-          files: |
-            docker-compose.yml
-            .env-example
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          
-
-
-
       - name: Prepare release files
         run: |
           mkdir release-assets
