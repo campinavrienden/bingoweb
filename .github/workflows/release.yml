@@ -6,6 +6,9 @@ on:
       - 'v*'         # for main releases
       - 'dev-v*'     # for dev releases
 
+permissions:
+  contents: write
+
 jobs:
   build-and-release:
     runs-on: ubuntu-latest
