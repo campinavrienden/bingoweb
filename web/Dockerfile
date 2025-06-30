@@ -23,7 +23,7 @@ COPY --from=builder /app/dist /usr/share/nginx/html
 # COPY entrypoint.sh /app/entrypoint.sh
 # COPY scripts /app/scripts
 
-RUN chmod +x /app/entrypoint.sh
+# RUN chmod +x /app/entrypoint.sh
 
 # Copy custom nginx config if needed (optional)
 # COPY nginx.conf /etc/nginx/nginx.conf

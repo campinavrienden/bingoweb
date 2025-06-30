@@ -62,4 +62,4 @@ services:
       - traefik.enable=true
       - traefik.http.routers.vite.rule=Host(`${WEB_SUBDOMAIN}.${DOMAIN}`)
       - traefik.http.routers.vite.entrypoints=web
-      - traefik.http.services.vite.loadbalancer.server.port=5173
+      - traefik.http.services.vite.loadbalancer.server.port=80
