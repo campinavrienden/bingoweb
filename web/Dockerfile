@@ -28,5 +28,5 @@ COPY scripts ./scripts
 
 # Expose port (default for nginx)
 EXPOSE 80
-ENTRYPOINT [ "/app/entrypoint.sh" ]
+ENTRYPOINT [ "./entrypoint.sh" ]
 CMD ["nginx", "-g", "daemon off;"]

@@ -19,15 +19,18 @@ services:
       - "80:80"     # The HTTP port
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
-      - "./traefik/traefik.toml:/etc/traefik/traefik.toml:ro"
     networks:
       - dev-network
     labels:
       - "traefik.enable=true"
+      - "--entrypoints.web.address=:80"
+      - "--api.dashboard=true"
+      - "--api.insecure=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--providers.docker.network=dev-network"
       - "traefik.http.routers.dashboard.rule=Host(`${TRAEFIK_DASHBOARD_SUBDOMAIN}.${DOMAIN}`)" # Can also be routed by path
       - "traefik.http.routers.dashboard.service=api@internal"
       - "traefik.http.routers.dashboard.entrypoints=web"
-
   rabbitmq:
     image: "rabbitmq:3-management"
     container_name: bw-rabbitmq-dev
