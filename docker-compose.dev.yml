@@ -1,0 +1,76 @@
+version: '3.8'
+
+networks:
+  dev-network:
+    name: dev-network
+
+volumes:
+  npm_cache:
+  node_modules_dev:
+
+services:
+  traefik:
+    image: "traefik:v2.10"
+    container_name: bw-traefik-dev
+    command:
+      - "--configFile=/etc/traefik/traefik.toml"
+      - "--log.level=DEBUG" # Uncomment for debugging
+    ports:
+      - "80:80"     # The HTTP port
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "./traefik/traefik.toml:/etc/traefik/traefik.toml:ro"
+    networks:
+      - dev-network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.dashboard.rule=Host(`${TRAEFIK_DASHBOARD_SUBDOMAIN}.${DOMAIN}`)" # Can also be routed by path
+      - "traefik.http.routers.dashboard.service=api@internal"
+      - "traefik.http.routers.dashboard.entrypoints=web"
+
+  rabbitmq:
+    image: "rabbitmq:3-management"
+    container_name: bw-rabbitmq-dev
+    hostname: rabbitmq
+    command: >
+      sh -c "rabbitmq-plugins enable --offline rabbitmq_mqtt rabbitmq_web_mqtt &&
+         rabbitmq-server"
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+    networks:
+      - dev-network
+    labels:
+      - "traefik.enable=true"
+      # Dashboard
+      - "traefik.http.routers.rabbitmq-dashboard.rule=Host(`${RABBIT_DASHBOARD_SUBDOMAIN}.${DOMAIN}`) && !PathPrefix(`/ws`)" # Path-based routing
+      - "traefik.http.routers.rabbitmq-dashboard.entrypoints=web"
+      - "traefik.http.routers.rabbitmq-dashboard.service=rabbitmq-dashboard"
+      - "traefik.http.services.rabbitmq-dashboard.loadbalancer.server.port=15672"
+      # MQTT
+      - "traefik.http.routers.rabbitws.rule=Host(`${RABBIT_WS_SUBDOMAIN}.${DOMAIN}`) && PathPrefix(`/ws`)"
+      - "traefik.http.routers.rabbitws.entrypoints=web"
+      - "traefik.http.routers.rabbitws.service=rabbitws"
+      - "traefik.http.services.rabbitws.loadbalancer.server.port=15675"
+      - "traefik.http.services.rabbitws.loadbalancer.server.scheme=http"
+
+  web:
+    container_name: bw-web-dev
+    build:
+      context: ./web
+      dockerfile: Dockerfile-dev
+    env_file:
+      - .env
+    volumes:
+      - ./.devcontainer:/app/.devcontainer
+      - ./web:/app:cached                    # your source code
+      - node_modules_dev:/app/node_modules    # isolated node_modules
+      - npm_cache:/root/.npm                    # isolated npm cache
+    working_dir: /app
+    networks:
+      - dev-network
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.vite.rule=Host(`${WEB_SUBDOMAIN}.${DOMAIN}`)
+      - traefik.http.routers.vite.entrypoints=web
+      - traefik.http.services.vite.loadbalancer.server.port=5173

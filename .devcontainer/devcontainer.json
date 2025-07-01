@@ -1,0 +1,23 @@
+{
+  "name": "React MQTT Dev Environment",
+  "dockerComposeFile": [
+    "../docker-compose.dev.yml"
+  ],
+  "service": "web",
+  "workspaceFolder": "/app",
+  "remoteUser": "root",
+  "postCreateCommand": "ls -all && sudo chmod +x .devcontainer/postCreateCommand.sh && .devcontainer/postCreateCommand.sh",
+  "customizations": {
+    "vscode": {
+      "settings": {
+        // "terminal.integrated.defaultProfile.linux": "bash",
+        "editor.formatOnSave": true
+      },
+      "extensions": [
+        "ms-azuretools.vscode-docker",
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode"
+      ]
+    }
+  }
+}

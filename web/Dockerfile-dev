@@ -1,0 +1,16 @@
+# Use an official Node.js runtime as a parent image
+FROM node:20-bullseye
+
+USER root
+
+RUN apt update
+RUN apt install sudo
+RUN npm install -g pnpm
+
+COPY entrypoint.sh ./entrypoint.sh
+COPY scripts ./scripts
+#RUN chmod +x /app/entrypoint.sh
+
+ENTRYPOINT ["sh", "entrypoint.sh"]
+
+CMD ["sleep", "infinity"]
