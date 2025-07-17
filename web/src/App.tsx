@@ -5,7 +5,7 @@ import './App.css'
 import { useMQTT } from './hooks/useMQTT';
 import type { IBingo } from './models/IBingo';
 
-const BROKER_URL = window.RUNTIME_ENV.MQTTURL;
+const BROKER_URL =  `${import.meta.env.VITE_MQTTURL}`;
 
 const TOPIC = '/bingo';
 
