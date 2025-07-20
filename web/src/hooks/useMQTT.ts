@@ -1,13 +1,16 @@
 import { useEffect, useRef, useState } from 'react';
 import mqtt from 'mqtt';
 
-export function useMQTT(brokerUrl: string, topic: string) {
+export function useMQTT(brokerUrl: string, topic: string, userName: string, password: string) {
   const [message, setMessage] = useState<{ topic: string; payload: string } | null>(null);
   const [error, setError] = useState<Error | null>(null);
   const clientRef = useRef<mqtt.MqttClient | null>(null);
 
   useEffect(() => {
-    const client = mqtt.connect(brokerUrl);
+    const client = mqtt.connect(brokerUrl, {
+      username: userName,
+      password: password
+    });
     clientRef.current = client;
 
     client.on('connect', () => {
