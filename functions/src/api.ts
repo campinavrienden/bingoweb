@@ -18,7 +18,6 @@ try {
 const recordPath = 'bingo/current'; // Define the path to your single record
 
 const app = express.default();
-const router = express.Router();
 const mqttUrl = 'wss://mqtt.campinavrienden.be/ws';
 const client = mqtt.connect(mqttUrl);
 const topic = 'bingo';
@@ -77,8 +76,14 @@ const getDBValue = async (): Promise<IBingo | null> => {
   }
 }
 
+const sliceAPIPrefix = (req: express.Request, _: express.Response, next: express.NextFunction) => {
+  const normalizedPath = req.path.replace(/^\/api/, "") || "/";
+  req.url = normalizedPath;
+  next();
+}
+
 const validateRequest = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
-  if (req.method === 'GET' && req.path === '/') {
+  if (req.method === 'GET' && (req.path === '/' || req.path === '')) {
     return next();
   }
 
@@ -133,13 +138,18 @@ const publishAdmin = async (record: IBingo) => {
 //   }
 // };
 
-router.use(validateRequest);
+app.use(sliceAPIPrefix);
+app.use(validateRequest);
 
-router.get('/', (_: express.Request, res: express.Response) => {
+app.get('/', (_: express.Request, res: express.Response) => {
   res.status(200).send('Hello from Bingo!');
 })
 
-router.post('/bingo/start/:max', async (req: express.Request, res: express.Response) => {
+app.get('', (_: express.Request, res: express.Response) => {
+  res.status(200).send('Hello from Bingo!');
+})
+
+app.post('/bingo/start/:max', async (req: express.Request, res: express.Response) => {
   const max = parseInt(req.params.max, 10);
 
   if (isNaN(max) || max <= 0) {
@@ -152,7 +162,7 @@ router.post('/bingo/start/:max', async (req: express.Request, res: express.Respo
   return res.status(200).send(`Bingo game started for maximum of ${record.max}`);
 });
 
-router.post('/bingo/stop', async (req: express.Request, res: express.Response) => {
+app.post('/bingo/stop', async (req: express.Request, res: express.Response) => {
   const record: IBingo = { max: -1, values: [] };
   await setDBValue(record)
   await publish({ previous: [], current: undefined })
@@ -160,7 +170,7 @@ router.post('/bingo/stop', async (req: express.Request, res: express.Response) =
   res.status(200).send(`Bingo game stopped`);
 });
 
-router.post('/bingo/draw', async (_: express.Request, res: express.Response) => {
+app.post('/bingo/draw', async (_: express.Request, res: express.Response) => {
   try {
     const record = await getDBValue();
 
@@ -196,8 +206,6 @@ router.post('/bingo/draw', async (_: express.Request, res: express.Response) => 
 });
 
 onInit(initialize);
-
-app.use('/api', router);
 
 exports.api = functions.https.onRequest({
   region: 'us-central1'

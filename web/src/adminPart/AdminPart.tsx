@@ -1,13 +1,13 @@
 
 import { useEffect } from 'react';
-import useHTTP from './HTTP/http';
+import useAPI from './HTTP/api';
 
 function AdminPart() {
   useEffect(() => {
     window.setTimeout(async () => {
-      const { get } = useHTTP();
-      const data = await get('/api');
-      console.log("Data", await data.text());
+      const { get } = useAPI();
+      const data = await get();
+      console.log("Data", await data);
     }, 0);
   }, []);
 
