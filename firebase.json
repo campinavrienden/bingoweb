@@ -8,6 +8,10 @@
     ],
     "rewrites": [
       {
+        "source": "/api/**",
+        "function": "api"
+      },
+      {
         "source": "**",
         "destination": "/index.html"
       }
@@ -15,5 +19,19 @@
     "predeploy": [
       "cd web && vite build"
     ]
+  },
+  "functions": {
+    "runtime": "nodejs22",
+    "predeploy": [
+      "cd functions && /home/user/.global_modules/bin/pnpm install",
+      "cd functions && /home/user/.global_modules/bin/pnpm run build:prod"
+    ],
+    "regions": [
+      "us-central1"
+    ],
+    "source": "functions"
+  },
+  "database": {
+    "rules": "database.rules.json"
   }
 }

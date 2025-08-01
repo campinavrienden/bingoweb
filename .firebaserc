@@ -1,5 +1,8 @@
 {
   "projects": {
-    "default": "bingoweb-466208"
-  }
+    "default": "bingoweb-466208",
+    "production": "bingoweb-466208"
+  },
+  "targets": {},
+  "etags": {}
 }
