@@ -15,6 +15,9 @@ export default tseslint.config([
       reactHooks.configs['recommended-latest'],
       reactRefresh.configs.vite,
     ],
+    "at-rule-no-unknown": [true, {
+      "ignoreAtRules": ["tailwind", "apply", "variants", "responsive", "screen"]
+    }],
     languageOptions: {
       ecmaVersion: 2020,
       globals: globals.browser,
