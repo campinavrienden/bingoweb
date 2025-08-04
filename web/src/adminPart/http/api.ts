@@ -6,8 +6,10 @@ const createURL = (path: string) => {
     return new URL(BASE_URI + path.replace(/^\//, '').replace(/\/$/, ''), window.location.origin).toString();
 }
 
-interface IBingo {
+export interface IBingoAPI {
     stop: () => Promise<void>
+    start: (max: number) => Promise<void>
+    draw: () => Promise<void>
 }
 
 const bingo_stop = async () => {
@@ -15,8 +17,20 @@ const bingo_stop = async () => {
     await post(createURL("/bingo/stop"), {});
 }
 
-const bingo: IBingo = {
-  stop: bingo_stop
+const bingo_start = async (max: number) => {
+    const {post} = useHTTP();
+    await post(createURL("/bingo/start/" + max.toString()), {});
+}
+
+const bingo_draw = async () => {
+    const {post} = useHTTP();
+    await post(createURL("/bingo/draw"), {});
+}
+
+const bingo: IBingoAPI = {
+  stop: bingo_stop,
+  start: bingo_start,
+  draw: bingo_draw
 }
 
 const get = async () => {
