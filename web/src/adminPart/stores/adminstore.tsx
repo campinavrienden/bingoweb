@@ -37,6 +37,10 @@ const adminstore = proxy({
     return this.maxInput > 0 && !this.canDraw;
   },
 
+  get getCurrent(): number | undefined {
+    return [...adminstore.drawn].pop();
+  },
+
   setMaxInput(max: number) {
     adminstore.maxInput = max
   },
@@ -51,7 +55,7 @@ const adminstore = proxy({
 
   generate() {
     if (!adminstore.canGenerate) return;
-    // adminstore.max = adminstore.maxInput;
+    adminstore.max = adminstore.maxInput;
     // adminstore.numbers = Array.from({ length: adminstore.max }, (_, i) => i + 1)
     // adminstore.drawn = []
     api.bingo.start(adminstore.max)

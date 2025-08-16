@@ -16,12 +16,12 @@ export const AdminPart: React.FC = () => {
       {/* Main Content */}
       <main className="grid grid-cols-1 md:grid-cols-[1fr_auto]">
         {/* Numbers */}
-        <div className="bg-gray-50">
+        <div className="bg-white dark:bg-gray-950">
           <NumbersGrid total={store.max} drawn={[...store.drawn]} />
         </div>
 
         {/* Control Panel */}
-        <aside className="bg-white w-64 border-l p-4 flex flex-col gap-4">
+        <aside className="bg-white dark:bg-gray-950 w-64 border-l border-gray-950 dark:border-white p-4 flex flex-col gap-4">
          <ControlsPanel />
         </aside>
       </main>
