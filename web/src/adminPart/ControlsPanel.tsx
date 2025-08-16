@@ -10,7 +10,8 @@ export function ControlsPanel() {
       <input
         type="number"
         className="border rounded px-2 py-1"
-        min={1}
+        min={0}
+        hidden={adminstore.canDraw}
         value={adminstore.maxInput}
         disabled={adminstore.canDraw}
         onChange={(e) => adminstore.setMaxInput(parseInt(e.target.value) || 0)}
@@ -21,7 +22,7 @@ export function ControlsPanel() {
           ? 'bg-red-600 hover:bg-red-700'
           : 'bg-gray-400 cursor-not-allowed'
         }`}
-        disabled={adminstore.canStop}
+        disabled={!adminstore.canStop}
         onClick={adminstore.reset}
       >
         Stop

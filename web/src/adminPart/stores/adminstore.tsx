@@ -21,7 +21,7 @@ const adminstore = proxy({
   drawn: [] as number[],
 
   get canStop() {
-    return this.numbers.length > 0;
+    return this.canDraw;
   },
 
   get canDraw() {
@@ -29,7 +29,7 @@ const adminstore = proxy({
   },
 
   get canGenerate() {
-    return this.maxInput > 0;
+    return this.maxInput > 0 && !this.canDraw;
   },
 
   setMaxInput(max: number) {
@@ -37,6 +37,7 @@ const adminstore = proxy({
   },
 
   reset() {
+    if(!adminstore.canStop)return;
     api.bingo.stop()
     adminstore.numbers = []
     adminstore.drawn = []
@@ -44,7 +45,7 @@ const adminstore = proxy({
   },
 
   generate() {
-    if (adminstore.maxInput <= 0) return;
+    if (!adminstore.canGenerate) return;
     adminstore.max = adminstore.maxInput;
     adminstore.numbers = Array.from({ length: adminstore.max }, (_, i) => i + 1)
     adminstore.drawn = []
@@ -52,7 +53,7 @@ const adminstore = proxy({
   },
 
   draw() {
-    if (adminstore.numbers.length < adminstore.max) return;
+    if (!adminstore.canDraw) return;
     api.bingo.draw()
   },
 });

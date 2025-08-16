@@ -21,7 +21,7 @@ export const AdminPart: React.FC = () => {
         </div>
 
         {/* Control Panel */}
-        <aside className="bg-white border-l p-4 flex flex-col gap-4">
+        <aside className="bg-white w-64 border-l p-4 flex flex-col gap-4">
          <ControlsPanel />
         </aside>
       </main>
