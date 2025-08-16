@@ -15,10 +15,15 @@ const api = useAPI();
 
 
 const adminstore = proxy({
+  connected: false,
   max: 0,
   maxInput: 90,
   numbers: [] as number[],
   drawn: [] as number[],
+
+  setIsConnected(connected: boolean) {
+    adminstore.connected = connected
+  },
 
   get canStop() {
     return this.canDraw;
@@ -39,16 +44,16 @@ const adminstore = proxy({
   reset() {
     if(!adminstore.canStop)return;
     api.bingo.stop()
-    adminstore.numbers = []
-    adminstore.drawn = []
-    adminstore.max = 0;
+    // adminstore.numbers = []
+    // adminstore.drawn = []
+    // adminstore.max = 0;
   },
 
   generate() {
     if (!adminstore.canGenerate) return;
-    adminstore.max = adminstore.maxInput;
-    adminstore.numbers = Array.from({ length: adminstore.max }, (_, i) => i + 1)
-    adminstore.drawn = []
+    // adminstore.max = adminstore.maxInput;
+    // adminstore.numbers = Array.from({ length: adminstore.max }, (_, i) => i + 1)
+    // adminstore.drawn = []
     api.bingo.start(adminstore.max)
   },
 
@@ -68,9 +73,10 @@ export const useStoreSnapshot = () => useSnapshot(useStore());
 
 // 🧩 Provider component that wires up MQTT
 export const StoreProvider = ({ children }: { children: any }) => {
-  const { message } = useMQTT(BROKER_URL, TOPIC, BROKER_USERNAME, BROKER_PASSWORD);
+  const { message, connected } = useMQTT(BROKER_URL, TOPIC, BROKER_USERNAME, BROKER_PASSWORD);
 
   useEffect(() => {
+    adminstore.setIsConnected(connected);
     if (message && JSON.parse(message.payload)) {
       try {
         const bingo: IAdminBingo = JSON.parse(message.payload)
@@ -85,7 +91,7 @@ export const StoreProvider = ({ children }: { children: any }) => {
         console.error(reason);
       }
     }
-  }, [message])
+  }, [message, connected])
   return (
     <StoreContext.Provider value={adminstore}>
       {children}

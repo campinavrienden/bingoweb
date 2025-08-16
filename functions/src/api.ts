@@ -119,7 +119,7 @@ const publishAdmin = async (record: IBingo) => {
     if (err) {
       console.error('Failed to publish message to MQTT:', err);
     } else {
-      console.log(`Published updated record to topic ${topic}`);
+      console.log(`Published updated record to topic ${admintopic}`);
     }
   });
 }
@@ -165,7 +165,7 @@ app.post('/bingo/start/:max', async (req: express.Request, res: express.Response
 app.post('/bingo/stop', async (req: express.Request, res: express.Response) => {
   const record: IBingo = { max: -1, values: [] };
   await setDBValue(record)
-  await publish({ previous: [], current: undefined })
+  await publish({ previous: [], current: -1 })
   await publishAdmin({ max: -1, values: [] });
   res.status(200).send(`Bingo game stopped`);
 });
@@ -178,7 +178,9 @@ app.post('/bingo/draw', async (_: express.Request, res: express.Response) => {
       res.status(404).send('Record not found');
       return;
     }
-
+    if(record.values === undefined) {
+      record.values = [];
+    }
     // Implement your draw logic here.
     // This is a placeholder.
     // For example, drawing a random number not already in values:
@@ -195,7 +197,7 @@ app.post('/bingo/draw', async (_: express.Request, res: express.Response) => {
     setDBValue(record);
 
     let values = record.values;
-    const current = values.pop();
+    const current = values[-1];
     await publish({ previous: values, current: current });
     await publishAdmin({ max: record.max, values: record.values })
     res.status(200).json(record);
