@@ -1,22 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { NumbersGrid } from './NumbersGrid';
 import { useStoreSnapshot } from './stores/adminstore';
+import { ControlsPanel } from './ControlsPanel';
 
-const AdminPart: React.FC = () => {
+export const AdminPart: React.FC = () => {
   const store = useStoreSnapshot();
-  const [inputMax, setInputMax] = useState(90);
-
-  const handleReset = () => {
-    store.reset();
-  };
-
-  const handleStart = () => {
-    store.start(inputMax);
-  };
-
-  const handleDraw = () => {
-    store.draw();
-  };
 
   return (
     <div className="min-h-screen grid grid-rows-[auto_1fr_auto]">
@@ -34,35 +22,7 @@ const AdminPart: React.FC = () => {
 
         {/* Control Panel */}
         <aside className="bg-white border-l p-4 flex flex-col gap-4">
-          <div>
-            <label className="block text-sm font-medium mb-1">Max Number</label>
-            <input
-              type="number"
-              className="border px-2 py-1 w-full rounded"
-              value={inputMax}
-              onChange={(e) => setInputMax(Number(e.target.value))}
-              min={1}
-            />
-          </div>
-          <button
-            onClick={handleReset}
-            className="bg-red-600 hover:bg-red-700 text-white py-1 px-4 rounded"
-          >
-            Stop / Reset
-          </button>
-          <button
-            onClick={handleStart}
-            disabled={store.drawn.length > 0}
-            className="bg-green-600 hover:bg-green-700 disabled:opacity-50 text-white py-1 px-4 rounded"
-          >
-            Generate
-          </button>
-          <button
-            onClick={handleDraw}
-            className="bg-blue-600 hover:bg-blue-700 text-white py-1 px-4 rounded"
-          >
-            Draw
-          </button>
+         <ControlsPanel />
         </aside>
       </main>
 

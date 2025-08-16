@@ -15,35 +15,44 @@ const api = useAPI();
 
 
 const adminstore = proxy({
-  max: 90,
+  max: 0,
+  maxInput: 90,
   numbers: [] as number[],
   drawn: [] as number[],
-  started: false,
-  resetCalled: false,
+
+  get canStop() {
+    return this.numbers.length > 0;
+  },
+
+  get canDraw() {
+    return this.max > 0;
+  },
+
+  get canGenerate() {
+    return this.maxInput > 0;
+  },
+
+  setMaxInput(max: number) {
+    adminstore.maxInput = max
+  },
 
   reset() {
     api.bingo.stop()
     adminstore.numbers = []
     adminstore.drawn = []
-    adminstore.started = false
-    adminstore.resetCalled = true
+    adminstore.max = 0;
   },
 
-  start(max: number) {
-    if (!adminstore.resetCalled) return
-    adminstore.max = max
-    adminstore.numbers = Array.from({ length: max }, (_, i) => i + 1)
+  generate() {
+    if (adminstore.maxInput <= 0) return;
+    adminstore.max = adminstore.maxInput;
+    adminstore.numbers = Array.from({ length: adminstore.max }, (_, i) => i + 1)
     adminstore.drawn = []
-    adminstore.started = true
-    adminstore.resetCalled = false
-    api.bingo.start(max)
+    api.bingo.start(adminstore.max)
   },
 
   draw() {
-    if (!adminstore.started || adminstore.numbers.length === 0) return
-    const index = Math.floor(Math.random() * adminstore.numbers.length)
-    const [picked] = adminstore.numbers.splice(index, 1)
-    adminstore.drawn.push(picked)
+    if (adminstore.numbers.length < adminstore.max) return;
     api.bingo.draw()
   },
 });
