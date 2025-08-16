@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import { NumbersGrid } from './NumbersGrid';
-import { useSnapshot } from 'valtio';
-import { adminstore } from './stores/adminstore';
+import { useStoreSnapshot } from './stores/adminstore';
 
-export const AdminPart: React.FC = () => {
-  const store = useSnapshot(adminstore);
+const AdminPart: React.FC = () => {
+  const store = useStoreSnapshot();
   const [inputMax, setInputMax] = useState(90);
 
   const handleReset = () => {
@@ -74,3 +73,5 @@ export const AdminPart: React.FC = () => {
     </div>
   );
 };
+
+export default AdminPart

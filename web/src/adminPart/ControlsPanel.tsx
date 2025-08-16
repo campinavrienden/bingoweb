@@ -1,11 +1,10 @@
 // ControlsPanel.tsx
-import { useSnapshot } from 'valtio'
 import { useState } from 'react'
-import { adminstore } from './stores/adminstore'
+import { useStoreSnapshot } from './stores/adminstore'
 
 export function ControlsPanel() {
-  const snap = useSnapshot(adminstore)
-  const [inputMax, setInputMax] = useState(snap.max)
+  const adminstore = useStoreSnapshot();
+  const [inputMax, setInputMax] = useState(adminstore.max)
 
   return (
     <div className="flex flex-col gap-4 w-full max-w-xs">
@@ -27,12 +26,12 @@ export function ControlsPanel() {
 
       <button
         className={`px-4 py-2 rounded text-white ${
-          snap.resetCalled
+          adminstore.resetCalled
             ? 'bg-blue-600 hover:bg-blue-700'
             : 'bg-gray-400 cursor-not-allowed'
         }`}
         onClick={() => adminstore.start(inputMax)}
-        disabled={!snap.resetCalled}
+        disabled={!adminstore.resetCalled}
       >
         Generate
       </button>
@@ -40,7 +39,7 @@ export function ControlsPanel() {
       <button
         className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
         onClick={adminstore.draw}
-        disabled={!snap.started}
+        disabled={!adminstore.started}
       >
         Draw
       </button>
