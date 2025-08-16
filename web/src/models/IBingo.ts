@@ -1,4 +1,4 @@
 export interface IBingo {
-    current?: number;
-    previous?: string[];
+    max: number;
+    values: number[];
 }

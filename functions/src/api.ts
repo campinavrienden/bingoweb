@@ -21,7 +21,6 @@ const app = express.default();
 const mqttUrl = 'wss://mqtt.campinavrienden.be/ws';
 const client = mqtt.connect(mqttUrl);
 const topic = 'bingo';
-const admintopic = 'adminbingo';
 
 client.on('connect', () => {
   console.log('Connected to MQTT broker');
@@ -31,14 +30,9 @@ client.on('error', (err: Error) => {
   console.error('MQTT connection error:', err);
 });
 
-interface IBingo extends IPublish {
+interface IBingo {
   max: number;
   values: number[];
-}
-
-interface IPublish {
-  current?: number;
-  previous?: number[];
 }
 
 const rtdb = admin.database();
@@ -104,22 +98,12 @@ const validateRequest = async (req: express.Request, res: express.Response, next
   }
 }
 
-const publish = async (record: IPublish) => {
+const publish = async (record: IBingo) => {
   client.publish(topic, JSON.stringify(record), { retain: true }, (err) => {
     if (err) {
       console.error('Failed to publish message to MQTT:', err);
     } else {
       console.log(`Published updated record to topic ${topic}`);
-    }
-  });
-}
-
-const publishAdmin = async (record: IBingo) => {
-  client.publish(admintopic, JSON.stringify(record), { retain: true }, (err) => {
-    if (err) {
-      console.error('Failed to publish message to MQTT:', err);
-    } else {
-      console.log(`Published updated record to topic ${admintopic}`);
     }
   });
 }
@@ -157,16 +141,14 @@ app.post('/bingo/start/:max', async (req: express.Request, res: express.Response
   }
   const record: IBingo = { max: max, values: [] };
   await setDBValue(record)
-  await publish({ previous: [], current: undefined })
-  await publishAdmin({ max: max, values: [] })
+  await publish({ max: max, values: [] })
   return res.status(200).send(`Bingo game started for maximum of ${record.max}`);
 });
 
 app.post('/bingo/stop', async (req: express.Request, res: express.Response) => {
   const record: IBingo = { max: -1, values: [] };
   await setDBValue(record)
-  await publish({ previous: [], current: -1 })
-  await publishAdmin({ max: -1, values: [] });
+  await publish({ max: -1, values: [] });
   res.status(200).send(`Bingo game stopped`);
 });
 
@@ -195,11 +177,7 @@ app.post('/bingo/draw', async (_: express.Request, res: express.Response) => {
     const drawnNumber = availableNumbers[Math.floor(Math.random() * availableNumbers.length)];
     record.values.push(drawnNumber);
     setDBValue(record);
-
-    let values = record.values;
-    const current = values[-1];
-    await publish({ previous: values, current: current });
-    await publishAdmin({ max: record.max, values: record.values })
+    await publish({ max: record.max, values: record.values })
     res.status(200).json(record);
   } catch (error) {
     console.error('Error drawing number:', error);

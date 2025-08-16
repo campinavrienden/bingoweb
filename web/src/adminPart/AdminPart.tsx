@@ -1,6 +1,6 @@
 import React from 'react';
 import { NumbersGrid } from './NumbersGrid';
-import { useStoreSnapshot } from './stores/adminstore';
+import { useStoreSnapshot } from '../stores/store';
 import { ControlsPanel } from './ControlsPanel';
 
 export const AdminPart: React.FC = () => {
@@ -17,7 +17,7 @@ export const AdminPart: React.FC = () => {
       <main className="grid grid-cols-1 md:grid-cols-[1fr_auto]">
         {/* Numbers */}
         <div className="bg-white dark:bg-gray-950">
-          <NumbersGrid total={store.max} drawn={[...store.drawn]} />
+          <NumbersGrid total={store.max} drawn={[...store.drawn || []]} />
         </div>
 
         {/* Control Panel */}

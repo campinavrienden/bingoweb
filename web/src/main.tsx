@@ -2,7 +2,7 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.tsx'
-import { StoreProvider } from './adminPart/stores/adminstore.tsx'
+import { StoreProvider } from './stores/store.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

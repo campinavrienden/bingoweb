@@ -4,6 +4,7 @@ interface CircleProps {
   number?: number;
   bgColor?: string;
   textColor?: string;
+  ratio?: number;
   size?: string;
 }
 
@@ -11,6 +12,7 @@ export default function Circle({
   number = undefined,
   bgColor = 'bg-blue-500',
   textColor = 'text-white',
+  ratio = 0.6,
   size = 'w-full',
 }: CircleProps) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -20,7 +22,7 @@ export default function Circle({
     const resize = () => {
       if (!containerRef.current) return;
       const width = containerRef.current.offsetWidth;
-      setFontSize(`${width * 0.6}px`);
+      setFontSize(`${width * ratio}px`);
     };
 
     const observer = new ResizeObserver(resize);
