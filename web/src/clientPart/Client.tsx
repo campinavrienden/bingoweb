@@ -16,8 +16,8 @@ function Client() {
     }
   }, [store.getCurrent])
   return (
-    <div className="h-screen w-full flex justify-center align-middle">
-      <div className="h-screen w-full justify-center bg-gray-100 flex flex-col gap-4 p-4 lg:max-w-[75%]">
+    <div className="h-[100dvh] w-full flex justify-center align-middle">
+      <div className="h-[100dvh] w-full justify-center bg-gray-100 flex flex-col gap-4 p-4 lg:max-w-[75%]">
         {/* Top 75% */}
         <div className="flex-[3] flex items-center justify-center max-h-[75%]">
           <div className="aspect-square w-full max-w-[calc(75vh-2rem)] flex items-center justify-center text-white text-4xl font-bold">
