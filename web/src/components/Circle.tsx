@@ -13,7 +13,7 @@ export default function Circle({
   bgColor = 'bg-blue-500',
   textColor = 'text-white',
   ratio = 0.6,
-  size = 'w-full',
+  size = 'h-full max-h-full',
 }: CircleProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [fontSize, setFontSize] = useState('16px');
@@ -35,7 +35,7 @@ export default function Circle({
   return (
     <div
       ref={containerRef}
-      className={`relative ${size} aspect-square rounded-full ${bgColor} flex items-center justify-center overflow-hidden`}
+      className={` ${size} aspect-square rounded-full ${bgColor} max-h-h-full flex items-center justify-center overflow-hidden`}
     >
       <span
         className={`font-bold leading-none translate-y-[-5%] block ${textColor}`}
