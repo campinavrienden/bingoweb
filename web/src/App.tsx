@@ -1,8 +1,8 @@
 import { Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
-const PublicPage = lazy(() => import('./clientPart/ClientPart'));
-const AdminPage = lazy(() => import('./adminPart/AdminPart'));
+const PublicPage = lazy(() => import('./clientPart'));
+const AdminPage = lazy(() => import('./adminPart'));
 
 function App() {
   return (

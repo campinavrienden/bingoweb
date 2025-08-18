@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect } from 'react';
 import { proxy, useSnapshot } from 'valtio'
 import useAPI from '../adminPart/http/api'
-import { useMQTT } from '../hooks/useMQTT'
+import { useMQTT } from '../hooks/mqtt'
 import type { IBingo } from '../models/IBingo';
 
 const BROKER_URL = `${import.meta.env.VITE_MQTTURL}`;
