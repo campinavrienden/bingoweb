@@ -1,4 +1,3 @@
-import '../App.css'
 import { Notifier } from '../hooks/notifier';
 import Client from './Client';
 

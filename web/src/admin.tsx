@@ -1,16 +1,13 @@
-import { lazy, StrictMode, Suspense } from 'react'
+import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
 import { StoreProvider } from './stores/store.tsx'
-
-const PublicPage = lazy(() => import('./clientPart'));
+import AdminPart from './adminPart'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <Suspense>
-      <StoreProvider>
-        <PublicPage />
-      </StoreProvider>
-    </Suspense>
+    <StoreProvider>
+      <AdminPart />
+    </StoreProvider>
   </StrictMode>,
 )
