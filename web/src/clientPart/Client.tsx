@@ -1,20 +1,20 @@
-import { useEffect } from 'react';
+// import { useEffect } from 'react';
 import Circle from '../components/Circle';
-import { useNotifier } from '../hooks/notifier';
+// import { useNotifier } from '../hooks/notifier';
 import { useStoreSnapshot } from '../stores/store';
 
 function Client() {
   // const [count, setCount] = useState(0);
   const store = useStoreSnapshot();
-  const notifier = useNotifier();
+  // const notifier = useNotifier();
 
-  useEffect(() => {
-    if (store.getCurrent) {
-      notifier.notify(`Bingonummer ${store.getCurrent?.toString()}`, `Huidig: ${store.getCurrent}\nVorige: ${store.getOther?.join(', ')}`);
-      navigator.vibrate([200, 100, 200]);
+  // useEffect(() => {
+  //   if (store.getCurrent) {
+  //     notifier.notify(`Bingonummer ${store.getCurrent?.toString()}`, `Huidig: ${store.getCurrent}\nVorige: ${store.getOther?.join(', ')}`);
+  //     navigator.vibrate([200, 100, 200]);
 
-    }
-  }, [store.getCurrent])
+  //   }
+  // }, [store.getCurrent])
   return (
     <div className="h-[100dvh] w-full flex justify-center align-middle">
       <div className="h-[100dvh] w-full justify-center bg-gray-100 flex flex-col gap-4 p-4 lg:max-w-[75%]">

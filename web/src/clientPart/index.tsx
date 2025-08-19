@@ -1,11 +1,11 @@
-import { Notifier } from '../hooks/notifier';
+// import { Notifier } from '../hooks/notifier';
 import Client from './Client';
 
 function Index() {
   return (
-    <Notifier>
+    // <Notifier>
       <Client />
-    </Notifier>
+    // </Notifier>
   )
 }
 

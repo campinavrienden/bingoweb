@@ -1,29 +1,22 @@
-import { createContext, useContext, useEffect } from 'react';
+import { createContext, useContext } from 'react';
 import { proxy, useSnapshot } from 'valtio'
 import useAPI from '../adminPart/http/api'
-import { useMQTT } from '../hooks/mqtt'
-import type { IBingo } from '../models/IBingo';
+// import { useMQTT } from '../hooks/mqtt'
+// import type { IBingo } from '../models/IBingo';
 
-const BROKER_URL = `${import.meta.env.VITE_MQTTURL}`;
-const BROKER_USERNAME = `${import.meta.env.VITE_MQTTUSERNAME}`;
-const BROKER_PASSWORD = `${import.meta.env.VITE_MQTTPASSWORD}`;
+// const BROKER_URL = `${import.meta.env.VITE_MQTTURL}`;
+// const BROKER_USERNAME = `${import.meta.env.VITE_MQTTUSERNAME}`;
+// const BROKER_PASSWORD = `${import.meta.env.VITE_MQTTPASSWORD}`;
 
-const TOPIC = 'bingo';
+// const TOPIC = 'bingo';
 
 const api = useAPI();
 
-
-
-const store = proxy({
-  connected: false,
+export const store = proxy({
   max: 0,
   maxInput: 90,
   numbers: [] as number[],
   drawn: [] as number[],
-
-  setIsConnected(connected: boolean) {
-    store.connected = connected
-  },
 
   get canStop() {
     return this.canDraw;
@@ -74,7 +67,7 @@ const store = proxy({
 });
 
 // 🌐 Create React Context
-const StoreContext = createContext(store);
+export const StoreContext = createContext(store);
 
 export const useStore = () => useContext(StoreContext);
 
@@ -82,29 +75,3 @@ export const useStore = () => useContext(StoreContext);
 export const useStoreSnapshot = () => useSnapshot(useStore());
 
 // 🧩 Provider component that wires up MQTT
-export const StoreProvider = ({ children }: { children: any }) => {
-  const { message, connected } = useMQTT(BROKER_URL, TOPIC, BROKER_USERNAME, BROKER_PASSWORD);
-
-  useEffect(() => {
-    store.setIsConnected(connected);
-    if (message && JSON.parse(message.payload)) {
-      try {
-        const bingo: IBingo = JSON.parse(message.payload)
-        if (bingo) {
-          if (store.max != bingo.max) {
-            store.max = bingo.max
-          }
-          store.drawn = bingo.values
-        }
-      }
-      catch (reason) {
-        console.error(reason);
-      }
-    }
-  }, [message, connected])
-  return (
-    <StoreContext.Provider value={store}>
-      {children}
-    </StoreContext.Provider>
-  );
-};
