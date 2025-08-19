@@ -12,7 +12,13 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: resolve(__dirname, 'index.html'),
-        admin: resolve(__dirname, 'admin.html')
+        admin: resolve(__dirname, 'admin.html'),
+        sw: resolve(__dirname, 'src/sw.ts')
+      },
+      output: {
+        entryFileNames: chunk => {
+          return chunk.name === 'sw' ? 'assets/js/sw.js' : 'assets/[name].[hash].js';
+        },
       }
     }
   },

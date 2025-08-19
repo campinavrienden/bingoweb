@@ -1,22 +1,20 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/logo_alleen_zwart.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="manifest" href="/manifest.webmanifest" />
-    <title>Bingo</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script>
-      // index.js or App.js
-      if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('/sw.js')
-          .then(reg => console.log('SW registered', reg))
-          .catch(err => console.error('SW registration failed', err));
-      }
-    </script>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/logo_alleen_zwart.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <title>Bingo</title>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script>
+    
+  </script>
+  <script type="module" src="/src/main.tsx"></script>
+</body>
+
 </html>

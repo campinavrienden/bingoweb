@@ -22,5 +22,5 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["src", "src/stores"]
+  "include": ["src", "src/stores", "src/sw.ts"]
 }

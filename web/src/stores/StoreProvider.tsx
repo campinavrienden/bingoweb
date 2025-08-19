@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 import { StoreContext, store } from './store'
-import { useMQTTBroker } from "../hooks/useMQTTBroker";
+import { useMQTTBroadcast } from "../hooks/useMQTTBroadcast";
 
 export const StoreProvider = ({ children }: { children: any }) => {
-    const message = useMQTTBroker();
+    const message = useMQTTBroadcast();
     useEffect(() => {
         if (message) {
             try {

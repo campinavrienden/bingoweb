@@ -3,9 +3,7 @@ import Client from './Client';
 
 function Index() {
   return (
-    // <Notifier>
       <Client />
-    // </Notifier>
   )
 }
 
