@@ -1,5 +1,6 @@
 import useHTTP from './http'
 
+// const BASE_URI = import.meta.env.DEV ? 'https://us-central1-bingoweb-466208.cloudfunctions.net/' : "/api/";
 const BASE_URI = "/api/";
 
 const createURL = (path: string) => {

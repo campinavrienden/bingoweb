@@ -26,5 +26,12 @@ export default defineConfig({
     host: '0.0.0.0', // Important: expose to all interfaces
     port: 5173,
     strictPort: true,
+    proxy: {
+      '/api': {
+        target: 'https://us-central1-bingoweb-466208.cloudfunctions.net/api/',
+        changeOrigin: true,
+        rewrite: path => path.replace(/^\/api/, '')
+      }
+    }
   },
 })

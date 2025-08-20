@@ -9,8 +9,8 @@ export const AdminPart: React.FC = () => {
   return (
     <div className="min-h-screen grid grid-rows-[auto_1fr_auto]">
       {/* Header */}
-      <header className="bg-blue-700 text-white p-4 text-lg font-semibold">
-        Bingo Admin Panel
+      <header className="bg-pink-700 text-white p-4 text-lg font-semibold">
+        <img src='logo_alleen_wit.svg' className='max-h-full inline-block h-8 px-3 translate-y-[-0.2rem]' />Bingo Admin Panel
       </header>
 
       {/* Main Content */}
@@ -21,7 +21,7 @@ export const AdminPart: React.FC = () => {
         </div>
 
         {/* Control Panel */}
-        <aside className="bg-white dark:bg-gray-950 w-64 border-l border-gray-950 dark:border-white p-4 flex flex-col gap-4">
+        <aside className="bg-white dark:bg-gray-950 w-[60dvh] border-l border-gray-950 dark:border-white p-4 flex flex-col gap-4">
          <ControlsPanel />
         </aside>
       </main>

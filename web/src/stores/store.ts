@@ -44,6 +44,11 @@ export const store = proxy({
     store.maxInput = max
   },
 
+  startWith(max: number) {
+    store.setMaxInput(max);
+    store.generate();
+  },
+
   reset() {
     if(!store.canStop)return;
     api.bingo.stop()
