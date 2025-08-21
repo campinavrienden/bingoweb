@@ -2,6 +2,7 @@ import { lazy, StrictMode, Suspense } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
 import { StoreProvider } from './stores/StoreProvider';
+import WakeLockProvider from './components/WakeLockProvider';
 
 const PublicPage = lazy(() => import('./clientPart'));
 
@@ -12,7 +13,7 @@ if ('serviceWorker' in navigator) {
     : '/assets/js/sw.js'; // bundled in prod
   window.addEventListener('load', () => {
     window.setTimeout(() => {
-      navigator.serviceWorker.register(swPath, { type: 'module', scope: "/ "})
+      navigator.serviceWorker.register(swPath, { type: 'module', scope: "/ " })
         .then(reg => console.log('SW registered', reg))
         .catch(err => console.error('SW registration failed', err));
     }, 500)
@@ -22,9 +23,12 @@ if ('serviceWorker' in navigator) {
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <Suspense>
-      <StoreProvider>
-        <PublicPage />
-      </StoreProvider>
+      <>
+        <WakeLockProvider />
+        <StoreProvider>
+          <PublicPage />
+        </StoreProvider>
+      </>
     </Suspense>
   </StrictMode>,
 )
