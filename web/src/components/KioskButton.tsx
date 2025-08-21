@@ -48,11 +48,12 @@ const KioskButton: React.FC = () => {
       onClick={toggleFullscreen}
       style={{
         position: 'fixed',
-        top: '1rem',
-        right: '1rem',
+        top: '0.5rem', // small padding from top
+        right: '0.5rem', // small padding from right
         zIndex: 9999,
         fontSize: '2rem',
-        padding: '0.5rem',
+        lineHeight: 1,
+        padding: 0, // remove extra padding
         borderRadius: '0.5rem',
         border: 'none',
         backgroundColor: 'rgba(0,0,0,0.5)',
