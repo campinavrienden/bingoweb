@@ -1,9 +1,38 @@
 @import "tailwindcss";
 
-html, body, #root {
+html,
+body,
+#root {
   height: 1vh;
   margin: 0;
   padding: 0;
+}
+
+
+@layer utilities {
+  .bg-zoom {
+    background-size: 100%;
+    animation: zoom 10s infinite alternate
+  }
+
+  @keyframes zoom {
+    0% {
+      background-size: 100%
+    }
+
+    to {
+      background-size: 200%
+    }
+  }
+}
+
+@utility shadow-round {
+  --tw-shadow: 0 0 25px -2px var(--tw-shadow-color, rgb(0 0 0 / 0.25));
+  box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+}
+
+@theme {
+  --color-banana: oklch(0.908 0.1757 98.54);
 }
 
 /* :root {

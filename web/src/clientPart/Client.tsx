@@ -16,16 +16,18 @@ function Client() {
 
   //   }
   // }, [store.getCurrent])
+
   return (
     <>
       <KioskButton />
-      <div className="h-[100dvh] w-full flex justify-center align-middle">
-        <div className="h-[100dvh] w-full justify-center bg-gray-100 flex flex-col gap-4 p-4 lg:max-w-[75%]">
+
+      <div className="h-[100dvh]  bg-[#d0e0e3] w-full flex justify-center align-middle lg:bg-cover lg:bg-no-repeat  lg:bg-[url('/lg-bg.png')] lg:bg-zoom">
+        <div className="h-[100dvh] w-full justify-center flex flex-col gap-4 p-4 lg:max-w-[55dvw]">
           {/* Top 75% */}
           <div className="flex-[3] flex items-center justify-center max-h-[75%]">
             <div className="aspect-square w-full max-w-[calc(75vh-2rem)] flex items-center justify-center text-white text-4xl font-bold">
-              <Circle ratio={0.5} number={store.getCurrent} bgColor='bg-amber-400' />
-            </div>
+              <Circle className="bg-[url('/bol_alleen.png')] bg-cover bg-center shadow-round shadow-[#0E2841]  text-shadow-gray-100 text-shadow-md " ratio={0.5} number={store.getCurrent} bgColor="" />
+            </div> {/* shadow-[#0E2841] */}
           </div>
 
           <div className="flex-[0] flex justify-center items-center gap-4 max-h-[25%]">
@@ -33,7 +35,7 @@ function Client() {
               <div
                 key={idx}
                 className="w-1/3 max-h-full aspect-square flex items-center justify-center text-white text-xl font-semibold"
-              ><Circle ratio={0.5} number={o} bgColor='bg-amber-800' />
+              ><Circle className='shadow-2xl shadow-[#d0e0e3] text-shadow-white text-shadow-md' ratio={0.5} number={o} bgColor='bg-[#0E2841]' />
               </div>)}
           </div>
         </div>

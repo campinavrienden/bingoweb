@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 
 interface CircleProps {
   number?: number;
+  className?: string | undefined;
   bgColor?: string;
   textColor?: string;
   ratio?: number;
@@ -10,6 +11,7 @@ interface CircleProps {
 
 export default function Circle({
   number = undefined,
+  className,
   bgColor = 'bg-blue-500',
   textColor = 'text-white',
   ratio = 0.6,
@@ -35,7 +37,7 @@ export default function Circle({
   return (
     <div
       ref={containerRef}
-      className={` ${size} aspect-square rounded-full ${bgColor} max-h-h-full flex items-center justify-center overflow-hidden`}
+      className={`${className} ${size} aspect-square rounded-full ${bgColor} max-h-h-full flex items-center justify-center overflow-hidden`}
     >
       <span
         className={`font-bold leading-none translate-y-[-5%] block ${textColor}`}
