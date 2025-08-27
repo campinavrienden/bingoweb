@@ -1,12 +1,16 @@
 // import { useEffect } from 'react';
-import Circle from '../components/Circle';
-import KioskButton from '../components/KioskButton';
+import Circle from '../../components/Circle';
+import KioskButton from '../../components/KioskButton';
+import { inject } from '../../components/Provider';
+import type { IStore } from '../../stores/store';
 // import { useNotifier } from '../hooks/notifier';
-import { useStoreSnapshot } from '../stores/store';
 
-function Client() {
+type Props = {
+  store: IStore;
+};
+
+const Client = inject("store")(({store}: Props) => {
   // const [count, setCount] = useState(0);
-  const store = useStoreSnapshot();
   // const notifier = useNotifier();
 
   // useEffect(() => {
@@ -42,6 +46,6 @@ function Client() {
       </div>
     </>
   )
-}
+});
 
 export default Client

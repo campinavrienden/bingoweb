@@ -1,18 +1,35 @@
-import { createContext, useContext } from 'react';
-import { proxy, useSnapshot } from 'valtio'
-import useAPI from '../adminPart/http/api'
-// import { useMQTT } from '../hooks/mqtt'
-// import type { IBingo } from '../models/IBingo';
+import { proxy } from 'valtio'
 
-// const BROKER_URL = `${import.meta.env.VITE_MQTTURL}`;
-// const BROKER_USERNAME = `${import.meta.env.VITE_MQTTUSERNAME}`;
-// const BROKER_PASSWORD = `${import.meta.env.VITE_MQTTPASSWORD}`;
-
-// const TOPIC = 'bingo';
+import useAPI from '../pages/adminPart/http/api'
+import { useMQTT } from '../hooks/mqtt';
+import { useEffect } from 'react';
+import type { IBingo } from '../models/IBingo';
 
 const api = useAPI();
 
-export const store = proxy({
+const BROKER_URL = `${import.meta.env.VITE_MQTTURL}`;
+const BROKER_USERNAME = `${import.meta.env.VITE_MQTTUSERNAME}`;
+const BROKER_PASSWORD = `${import.meta.env.VITE_MQTTPASSWORD}`;
+const TOPIC = 'bingo';
+
+export interface IStore {
+  max: number;
+  maxInput: number;
+  numbers: number[];
+  drawn: number[];
+  canStop: boolean;
+  canDraw: boolean;
+  canGenerate: boolean;
+  getCurrent: number | undefined;
+  getOther: number[] | undefined;
+  setMaxInput: (max: number) => void;
+  startWith: (max: number) => void;
+  reset: () => void;
+  generate: () => void;
+  draw: () => Promise<void>;
+}
+
+const store = {
   max: 0,
   maxInput: 90,
   numbers: [] as number[],
@@ -50,7 +67,7 @@ export const store = proxy({
   },
 
   reset() {
-    if(!store.canStop)return;
+    if (!store.canStop) return;
     api.bingo.stop()
     // store.numbers = []
     // store.drawn = []
@@ -65,18 +82,31 @@ export const store = proxy({
     api.bingo.start(store.max)
   },
 
-  draw() {
+  async draw() {
     if (!store.canDraw) return;
-    api.bingo.draw()
+    await api.bingo.draw()
   },
-});
+}
 
-// 🌐 Create React Context
-export const StoreContext = createContext(store);
-
-export const useStore = () => useContext(StoreContext);
-
-// 🔄 Hook to access reactive snapshot (optional)
-export const useStoreSnapshot = () => useSnapshot(useStore());
-
-// 🧩 Provider component that wires up MQTT
+export const useStore = (): IStore => {
+  const { message } = useMQTT(BROKER_URL, TOPIC, BROKER_USERNAME, BROKER_PASSWORD);
+  const proxyStore = proxy(store);
+  useEffect(() => {
+    if (message && JSON.parse(message.payload)) {
+      try {
+        const bingo: IBingo = JSON.parse(message.payload)
+        if (bingo) {
+          if (proxyStore.max != bingo.max) {
+            proxyStore.max = bingo.max
+          }
+          proxyStore.drawn = bingo.values
+        }
+      }
+      catch (reason) {
+        console.error(reason);
+      }
+    }
+  }, [message]);
+  
+  return proxyStore;
+}

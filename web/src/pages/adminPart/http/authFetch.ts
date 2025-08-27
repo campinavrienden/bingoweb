@@ -1,5 +1,5 @@
 // httpFetch.ts
-import { useFirebase } from '../../firebase/firebase';
+import { useFirebase } from '../../../firebase/firebase';
 import { getToken } from 'firebase/app-check';
 
 export const httpFetch = async (input: RequestInfo, init?: RequestInit): Promise<Response> => {

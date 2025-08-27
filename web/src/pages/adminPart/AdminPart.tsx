@@ -1,10 +1,14 @@
 import React from 'react';
 import { NumbersGrid } from './NumbersGrid';
-import { useStoreSnapshot } from '../stores/store';
+import { type IStore } from '../../stores/store';
 import { ControlsPanel } from './ControlsPanel';
+import { inject } from '../../components/Provider';
 
-export const AdminPart: React.FC = () => {
-  const store = useStoreSnapshot();
+type Props = {
+  store: IStore;
+};
+
+export const AdminPart: React.FC = inject("store")(({store}: Props) => {
 
   return (
     <div className="min-h-screen grid grid-rows-[auto_1fr_auto]">
@@ -32,6 +36,6 @@ export const AdminPart: React.FC = () => {
       </footer>
     </div>
   );
-};
+});
 
 export default AdminPart

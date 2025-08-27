@@ -2,11 +2,9 @@
 import { lazy, StrictMode, Suspense } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
-import { StoreProvider } from './stores/StoreProvider';
 
-const PublicPage = lazy(() => import('./clientPart'));
+const PublicPage = lazy(() => import('./pages/clientPart'));
 
-// index.js or App.js
 if ('serviceWorker' in navigator) {
   const swPath = import.meta.env.DEV
     ? `/sw.js` // served from public in dev
@@ -23,9 +21,7 @@ if ('serviceWorker' in navigator) {
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <Suspense>
-      <StoreProvider>
         <PublicPage />
-      </StoreProvider>
     </Suspense>
   </StrictMode>,
 )

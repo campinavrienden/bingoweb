@@ -1,11 +1,15 @@
 // ControlsPanel.tsx
 import { useState } from 'react';
-import Circle from '../components/Circle';
-import { useStoreSnapshot } from '../stores/store'
-import ConfirmModal from '../components/ConfirmModel';
+import Circle from '../../components/Circle';
+import { type IStore } from '../../stores/store'
+import ConfirmModal from '../../components/ConfirmModel';
+import { inject } from '../../components/Provider';
 
-export function ControlsPanel() {
-  const store = useStoreSnapshot();
+type Props = {
+  store: IStore;
+};
+
+export const ControlsPanel = inject("store")(({ store }: Props) => {
   const [stopModalIsOpen, setStopModalIsOpen] = useState(false);
   const stopClick = () => {
     setStopModalIsOpen(true);
@@ -81,4 +85,4 @@ export function ControlsPanel() {
       </div>
     </>
   )
-}
+})
