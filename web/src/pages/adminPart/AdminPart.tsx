@@ -20,19 +20,19 @@ export const AdminPart: React.FC = inject("store")(({store}: Props) => {
       {/* Main Content */}
       <main className="grid grid-cols-1 md:grid-cols-[1fr_auto]">
         {/* Numbers */}
-        <div className="bg-white dark:bg-gray-950">
+        <div className="bg-bingo-lightgreen dark:bg-gray-950">
           <NumbersGrid total={store.max} drawn={[...store.drawn || []]} />
         </div>
 
         {/* Control Panel */}
-        <aside className="bg-white dark:bg-gray-950 w-[60dvh] border-l border-gray-950 dark:border-white p-4 flex flex-col gap-4">
+        <aside className="bg-bingo-lightgreen dark:bg-gray-950 w-[60dvh] border-l border-gray-400 dark:border-white p-4 flex flex-col gap-4">
          <ControlsPanel />
         </aside>
       </main>
 
       {/* Footer */}
       <footer className="bg-gray-100 text-center text-sm p-2 text-gray-600">
-        &copy; 2025 Bingo Admin
+        &copy; 2025 Campinavrienden vzw
       </footer>
     </div>
   );

@@ -23,7 +23,7 @@ export const NumbersGrid: React.FC<Readonly<NumbersGridProps>> = ({ total, drawn
         if (isLast) {
           className += ' bg-yellow-400 text-black animate-pulse';
         } else if (isDrawn) {
-          className += ' bg-blue-600 text-white';
+          className += ' bg-bingo-blue text-white';
         } else {
           className += ' bg-gray-100 text-gray-800';
         }

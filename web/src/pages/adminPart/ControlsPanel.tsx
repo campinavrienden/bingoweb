@@ -25,7 +25,7 @@ export const ControlsPanel = inject("store")(({ store }: Props) => {
       <ConfirmModal isOpen={stopModalIsOpen} onClose={stopModalOnClose}
         cancelLabel='Annuleren' confirmLabel='Bevestigen' description='Weet je zeker dat je wil stoppen?' title='Stoppen' />
       <div className="flex flex-col gap-4 w-full">
-        {store.canDraw && <Circle number={store.getCurrent} size='max-w' />}
+        {store.canDraw && <Circle className="bg-[url('/bol_alleen.png')] bg-cover bg-center shadow-round shadow-bingo-blue  text-shadow-gray-100 text-shadow-md " number={store.getCurrent} size='max-w' />}
         <label hidden={store.canDraw} className="font-medium dark:text-white">Max. nummers</label>
         <input
           type="number"
