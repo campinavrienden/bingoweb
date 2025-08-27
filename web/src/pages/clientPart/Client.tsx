@@ -25,8 +25,9 @@ const Client = inject("store")(({store}: Props) => {
     <>
       <KioskButton />
 
-      <div className="h-[100dvh]  bg-bingo-lightgreen w-full flex justify-center align-middle lg:bg-cover lg:bg-no-repeat  lg:bg-[url('/lg-bg.png')] lg:bg-zoom">
-        <div className="h-[100dvh] w-full justify-center flex flex-col gap-4 p-4 lg:max-w-[55dvw]">
+      <div className="overflow-hidden relative h-[100dvh]  bg-bingo-lightgreen w-full flex justify-center align-middle">
+        <div className="absolute inset-0 bg-bottom bg-cover scale-300 overflow-hidden  lg:bg-no-repeat  lg:bg-[url('/lg-bg.png')] lg:bg-zoom"></div>
+        <div className="h-[100dvh] z-10  w-full justify-center flex flex-col gap-4 p-4 lg:max-w-[55dvw]">
           {/* Top 75% */}
           <div className="flex-[3] flex items-center justify-center max-h-[75%]">
             <div className="aspect-square w-full max-w-[calc(75vh-2rem)] flex items-center justify-center text-white text-4xl font-bold">
