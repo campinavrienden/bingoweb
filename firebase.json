@@ -8,6 +8,14 @@
     ],
     "rewrites": [
       {
+        "source": "/sw.js",
+        "destination": "/sw.js"
+      },
+      {
+        "source": "/adminsw.js",
+        "destination": "/adminsw.js"
+      },
+      {
         "source": "/api",
         "function": "api"
       },
@@ -22,7 +30,8 @@
       {
         "source": "/admin/**",
         "destination": "/admin.html"
-      },{
+      },
+      {
         "source": "/sw.js",
         "destination": "/sw.js"
       },

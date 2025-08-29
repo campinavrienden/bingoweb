@@ -1,4 +1,4 @@
-import { defineConfig, loadConfigFromFile } from 'vite'
+import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 import { resolve } from 'path'
@@ -17,11 +17,16 @@ export default defineConfig({
       input: {
         main: resolve(__dirname, 'index.html'),
         admin: resolve(__dirname, 'admin.html'),
-        sw: resolve(__dirname, 'src/sw.ts')
+        sw: resolve(__dirname, 'src/sw.ts'),
+        adminsw: resolve(__dirname, 'src/adminsw.ts')
       },
       output: {
         entryFileNames: chunk => {
-          return chunk.name === 'sw' ? 'assets/js/sw.js' : 'assets/[name].[hash].js';
+          switch(chunk.name) {
+            case 'sw': return 'sw.js';
+            case 'adminsw': return 'adminsw.js';
+            default: return 'assets/[name].[hash].js'
+          }
         },
       }
     }

@@ -8,5 +8,5 @@
       "esModuleInterop": true,
       "skipLibCheck": true
     },
-    "include": ["src/sw.ts" , "vite-env.d.ts"]
+    "include": ["src/sw.ts", "src/adminsw.ts" , "vite-env.d.ts"]
   }

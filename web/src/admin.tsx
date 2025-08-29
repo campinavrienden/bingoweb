@@ -5,14 +5,11 @@ import './index.css'
 import AdminPart from './pages/adminPart'
 
 if ('serviceWorker' in navigator) {
-  const swPath = import.meta.env.DEV
-    ? `/sw.js` // served from public in dev
-    : '/assets/js/sw.js'; // bundled in prod
   window.addEventListener('load', () => {
     window.setTimeout(() => {
-      navigator.serviceWorker.register(swPath, { type: 'module', scope: "/ " })
-        .then(reg => console.log('SW registered', reg))
-        .catch(err => console.error('SW registration failed', err));
+      navigator.serviceWorker.register('adminsw.js', { type: 'module' })
+        .then(reg => console.log('Admin SW registered', reg))
+        .catch(err => console.error('Admin SW registration failed', err));
     }, 500)
   })
 }

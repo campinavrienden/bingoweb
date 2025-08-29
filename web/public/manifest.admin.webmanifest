@@ -1,17 +1,34 @@
 {
-    "name": "Campinavrienden - Bingo - Admin",
-    "description": "The admin page for Campinavrienden - Bingo",
-    "short_name": "BingoAdmin",
-    "start_url": "/",
-    "display": "fullscreen",
-    "display_override": ["fullscreen", "minimal-ui", "window-controls-overlay"],
-    "background_color": "#ffffff",
-    "theme_color": "#c6005c",
-    "icons": [
-      { "src": "/logo_alleen_zwart.svg", "type": "image/svg+xml" },
-      { "src": "/logo_alleen_zwart.svg", "sizes": "192x192", "type": "image/svg+xml" },
-      { "src": "/logo_alleen_zwart.svg", "sizes": "192x192", "purpose": "monochrome maskable", "type": "image/svg+xml" },
-      { "src": "/logo_alleen_zwart.svg", "sizes": "512x512", "type": "image/svg+xml" },
-      { "src": "/logo_alleen_zwart.svg", "sizes": "512x512", "purpose": "monochrome maskable", "type": "image/svg+xml" }
-    ]
-  }
+  "id": "admin",
+  "name": "Campinavrienden - Bingo - Admin",
+  "description": "The admin page for Campinavrienden - Bingo",
+  "short_name": "BingoAdmin",
+  "start_url": "/admin.html",
+  "scope": "/admin",
+  "display": "fullscreen",
+  "display_override": [
+    "fullscreen",
+    "minimal-ui",
+    "window-controls-overlay"
+  ],
+  "background_color": "#ffffff",
+  "theme_color": "#c6005c",
+  "icons": [
+    {
+      "src": "/icons/icon-admin-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/icon-admin-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/icon-512-admin-monochrome.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "monochrome"
+    }
+  ]
+}
