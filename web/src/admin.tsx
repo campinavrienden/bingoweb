@@ -4,6 +4,19 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import AdminPart from './pages/adminPart'
 
+if ('serviceWorker' in navigator) {
+  const swPath = import.meta.env.DEV
+    ? `/sw.js` // served from public in dev
+    : '/assets/js/sw.js'; // bundled in prod
+  window.addEventListener('load', () => {
+    window.setTimeout(() => {
+      navigator.serviceWorker.register(swPath, { type: 'module', scope: "/ " })
+        .then(reg => console.log('SW registered', reg))
+        .catch(err => console.error('SW registration failed', err));
+    }, 500)
+  })
+}
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
       <AdminPart />
