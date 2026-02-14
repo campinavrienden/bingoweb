@@ -12,7 +12,7 @@ export const NumbersGrid: React.FC<Readonly<NumbersGridProps>> = ({ total, drawn
   const numbers = Array.from({ length: total }, (_, i) => i + 1);
 
   return (
-    <div className="justify-self-center grid gap-2 grid-cols-[repeat(auto-fill,minmax(5rem,1fr))] p-4 max-w-[calc(20*3rem)]">
+    <div className="justify-self-center grid gap-2 grid-cols-[repeat(auto-fill,minmax(3.5rem,1fr))] p-4 max-w-[calc((15*3rem))]">
       {numbers.map((num) => {
         const isDrawn = drawn.includes(num);
         const isLast = num === lastDrawn;

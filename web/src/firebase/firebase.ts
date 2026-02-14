@@ -1,6 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeAppCheck, ReCaptchaV3Provider } from 'firebase/app-check';
 import { initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -25,3 +26,5 @@ const appcheck = initializeAppCheck(firebaseapp, {
 export function useFirebase() {
     return { firebaseapp, appcheck };
 }
+
+export const auth = getAuth(firebaseapp);
