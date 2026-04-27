@@ -1,9 +1,11 @@
 // ControlsPanel.tsx
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Circle from '../../components/Circle';
 import { type IStore } from '../../stores/store'
 import ConfirmModal from '../../components/ConfirmModel';
 import { inject } from '../../components/Provider';
+import { useKeyPress } from './useKeyPress'
+
 
 type Props = {
   store: IStore;
@@ -11,6 +13,19 @@ type Props = {
 
 export const ControlsPanel = inject("store")(({ store }: Props) => {
   const [stopModalIsOpen, setStopModalIsOpen] = useState(false);
+  const pageDown = useKeyPress("PageDown");
+
+  useEffect(() => {
+    if (pageDown) {
+      if (store.canDraw) {
+        const draw = async () => {
+          await store.draw();
+        }
+        draw();
+      }
+    }
+  }, [pageDown])
+
   const stopClick = () => {
     setStopModalIsOpen(true);
   }
@@ -42,7 +57,7 @@ export const ControlsPanel = inject("store")(({ store }: Props) => {
               className="py-2 aspect-square h-16 px-4 rounded bg-amber-800 text-white">
               75
             </button>
-            <button onClick={()=> store.startWith(90)}
+            <button onClick={() => store.startWith(90)}
               className="py-2 aspect-square h-16 px-4 rounded bg-amber-800 text-white">
               90
             </button>
