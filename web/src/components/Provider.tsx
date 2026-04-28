@@ -39,7 +39,6 @@ export function inject(...keysOrArray: Keys[]) {
           throw new Error(`Store or prop "${key}" not found in Provider`);
         }
         const isProxy: boolean = isValtioProxy(value);
-        console.log(`Provider it's '${key}' is ${ !!isProxy ? '' : 'not ' }a proxy object`)
         injectedProps[key] = isProxy ? useSnapshot(value) : value;
       }
 

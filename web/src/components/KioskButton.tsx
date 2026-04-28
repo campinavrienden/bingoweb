@@ -10,15 +10,12 @@ const KioskButton: React.FC = () => {
       if ('wakeLock' in navigator) {
         wakeLockRef.current = await (navigator as any).wakeLock.request('screen');
         wakeLockRef.current?.addEventListener('release', () => {
-          console.log('Wake Lock released');
+          
         });
-        console.log('Wake Lock active');
       }
     } catch (err: unknown) {
       if (err instanceof Error) {
-        console.error(`Wake Lock error: ${err.name}, ${err.message}`);
       } else {
-        console.error('Wake Lock error:', err);
       }
     }
   };
