@@ -32,6 +32,8 @@ export interface IStore {
   startWith: (max: number) => void;
   reset: () => void;
   generate: () => void;
+  doBingo: () => void;
+  doBreak: () => void;
   draw: () => Promise<void>;
 }
 
@@ -104,6 +106,27 @@ const store = {
     if (!store.canDraw) return;
     await api.bingo.draw()
   },
+
+  async doBingo() {
+    store.isBingo = !store.isBingo;
+    store.isBreak = false;
+    await store.publishInfo();
+  },
+
+  async doBreak() {
+    store.isBreak = !store.isBreak;
+    store.isBingo = false;
+    await store.publishInfo();
+  },
+
+  async setNextBingo(nextBingo: Date) {
+    store.nextBingo = nextBingo;
+    await store.publishInfo();
+  },
+
+  async publishInfo() {
+    await api.bingo.info({ isBingo: store.isBingo, isBreak: store.isBreak, nextBingo: store.nextBingo })
+  }
 }
 
 export const useStore = (): IStore => {
@@ -121,9 +144,7 @@ export const useStore = (): IStore => {
           if (proxyStore.max != bingo.max) {
             proxyStore.max = bingo.max
           }
-          if (proxyStore.isBingo != bingo.isBingo) {
-            proxyStore.isBingo = bingo.isBingo
-          }
+
           proxyStore.drawn = bingo.values
         }
       }
@@ -140,6 +161,9 @@ export const useStore = (): IStore => {
             }
             if (proxyStore.nextBingo != bingo.nextBingo) {
               proxyStore.nextBingo = bingo.nextBingo
+            }
+            if (proxyStore.isBingo != bingo.isBingo) {
+              proxyStore.isBingo = bingo.isBingo
             }
           }
         }

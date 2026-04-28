@@ -47,8 +47,8 @@
   "functions": {
     "runtime": "nodejs22",
     "predeploy": [
-      "cd functions && /home/user/.global_modules/bin/pnpm install",
-      "cd functions && /home/user/.global_modules/bin/pnpm run build:prod"
+      "cd functions && pnpm install",
+      "cd functions && pnpm run build:prod"
     ],
     "regions": [
       "us-central1"

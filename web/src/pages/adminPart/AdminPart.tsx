@@ -32,7 +32,7 @@ export const AdminPart: React.FC = inject("store")(({store}: Props) => {
 
       {/* Footer */}
       <footer className="bg-gray-100 text-center text-sm p-2 text-gray-600">
-        &copy; 2025 Campinavrienden vzw
+        &copy; 2026 Campinavrienden vzw
       </footer>
     </div>
   );

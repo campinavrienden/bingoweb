@@ -63,9 +63,9 @@ export const ControlsPanel = inject("store")(({ store }: Props) => {
             </button>
           </div>
         </div>
-        <div className="grid grid-cols-3 gap-4 w-full">
+        <div className="grid md:grid-cols-3 gap-4 w-full">
           <button
-            className={`py-2 px-4 rounded text-white ${store.canGenerate
+            className={`text-white py-4 md:px-4 md:aspect-square  rounded ${store.canGenerate
               ? 'bg-blue-600 hover:bg-blue-700'
               : 'bg-gray-400 cursor-not-allowed'
               }`}
@@ -76,7 +76,7 @@ export const ControlsPanel = inject("store")(({ store }: Props) => {
           </button>
 
           <button
-            className={`text-white px-4 py-2 rounded ${store.canDraw
+            className={`text-white md:px-4 md:py-2 md:aspect-square rounded ${store.canDraw
               ? 'bg-green-600 hover:bg-green-700'
               : 'bg-gray-400 cursor-not-allowed'
               }`}
@@ -87,7 +87,7 @@ export const ControlsPanel = inject("store")(({ store }: Props) => {
           </button>
 
           <button
-            className={`text-white px-4 py-2 aspect-square  rounded ${store.canStop
+            className={`text-white md:px-4 md:py-2 md:aspect-square  rounded ${store.canStop
               ? 'bg-red-600 hover:bg-red-700'
               : 'bg-gray-400 cursor-not-allowed'
               }`}
@@ -96,6 +96,16 @@ export const ControlsPanel = inject("store")(({ store }: Props) => {
           >
             Stop
           </button>
+        </div>
+        <div className="grid md:grid-cols-2 gap-4 w-full">
+          <button
+            className={`text-white font-bingo-overlay py-4 md:px-4  rounded bg-yellow-500 hover:bg-yellow-600 ${store.isBingo && 'animate-pulse' }`}
+            onClick={() => store.doBingo()}
+          >BINGO!</button>
+          <button
+            className={`text-white font-bingo-overlay py-4 md:px-4  rounded bg-yellow-600 hover:bg-yellow-700 ${store.isBreak && 'animate-pulse' }`}
+            onClick={() => store.doBreak()}
+          >Pauze</button>
         </div>
       </div>
     </>

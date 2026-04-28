@@ -1,3 +1,4 @@
+import type { IBingoInfo } from '../../../models/IBingo';
 import useHTTP from './http'
 
 // const BASE_URI = import.meta.env.DEV ? 'https://us-central1-bingoweb-466208.cloudfunctions.net/' : "/api/";
@@ -11,6 +12,7 @@ export interface IBingoAPI {
     stop: () => Promise<void>
     start: (max: number) => Promise<void>
     draw: () => Promise<void>
+    info: (info: IBingoInfo) => Promise<void>
 }
 
 const bingo_stop = async () => {
@@ -28,10 +30,16 @@ const bingo_draw = async () => {
     await post(createURL("/bingo/draw"), {});
 }
 
+const bingo_info = async (info: IBingoInfo) => {
+    const {post} = useHTTP();
+    await post(createURL("/bingo/info"), info);
+}
+
 const bingo: IBingoAPI = {
   stop: bingo_stop,
   start: bingo_start,
-  draw: bingo_draw
+  draw: bingo_draw,
+  info: bingo_info
 }
 
 const get = async () => {

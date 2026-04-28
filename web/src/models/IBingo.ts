@@ -1,10 +1,10 @@
 export interface IBingo {
     max: number;
     values: number[];
-    isBingo: boolean;
 }
 
 export interface IBingoInfo {
-    nextBingo: Date;
-    isBreak: boolean;
+    nextBingo: Date | undefined;
+    isBreak: boolean | undefined;
+    isBingo: boolean | undefined;
 }

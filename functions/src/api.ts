@@ -21,6 +21,7 @@ const app = express.default();
 const mqttUrl = 'wss://mqtt.campinavrienden.be/ws';
 const client = mqtt.connect(mqttUrl);
 const topic = 'bingo';
+const infotopic = 'bingo-info';
 
 client.on('connect', () => {
   console.log('Connected to MQTT broker');
@@ -33,6 +34,12 @@ client.on('error', (err: Error) => {
 interface IBingo {
   max: number;
   values: number[];
+}
+
+interface IBingoInfo {
+  isBreak: boolean;
+  isBingo: boolean;
+  nextBingo: Date;
 }
 
 const rtdb = admin.database();
@@ -102,6 +109,16 @@ const publish = async (record: IBingo) => {
   client.publish(topic, JSON.stringify(record), { retain: true }, (err) => {
     if (err) {
       console.error('Failed to publish message to MQTT:', err);
+    } else {
+      console.log(`Published updated record to topic ${topic}`);
+    }
+  });
+}
+
+const publishInfo = async (record: IBingoInfo) => {
+  client.publish(infotopic, JSON.stringify(record), { retain: true }, (err) => {
+    if (err) {
+      console.error('Failed to publish infomessage to MQTT:', err);
     } else {
       console.log(`Published updated record to topic ${topic}`);
     }
@@ -184,6 +201,29 @@ app.post('/bingo/draw', async (_: express.Request, res: express.Response) => {
     res.status(500).send('Error drawing number');
   }
 });
+
+app.post('/bingo/info', async (req: express.Request, res: express.Response) => {
+  try {
+    const record = await getDBValue();
+
+    if (record == null) {
+      res.status(404).send('Record not found');
+      return;
+    }
+    
+    const merged = {
+      ...record,
+      ...req.body,
+    };
+    setDBValue(merged);
+    publishInfo({ isBreak: merged.isBreak, isBingo: merged.isBingo, nextBingo: merged.nextBingo });
+    res.status(200).json(record);
+  } catch (error) {
+    console.error('Error drawing number:', error);
+    res.status(500).send('Error drawing number');
+  }
+});
+
 
 onInit(initialize);
 
