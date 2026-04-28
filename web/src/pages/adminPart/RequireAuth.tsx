@@ -10,7 +10,7 @@ import {
 export function RequireAuth({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  const [authError, setAuthError] = useState<string | null>(null);
+  const [_, setAuthError] = useState<string | null>(null);
   const [errorCount, setErrorCount] = useState(0);
 
   const MAX_ERRORS = 5;
