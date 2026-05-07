@@ -4,7 +4,7 @@ export interface IBingo {
 }
 
 export interface IBingoInfo {
-    nextBingo: Date | undefined;
+    nextBingo: string  | undefined;
     isBreak: boolean | undefined;
     isBingo: boolean | undefined;
 }

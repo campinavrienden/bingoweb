@@ -25,7 +25,7 @@ export interface IStore {
   canDraw: boolean;
   canGenerate: boolean;
   hasOverlay: boolean;
-  hasNextBingo: boolean;
+  showNextBingo: boolean;
   getCurrent: number | undefined;
   getOther: number[] | undefined;
   setMaxInput: (max: number) => void;
@@ -63,8 +63,8 @@ const store = {
     return !!store.isBingo || !!store.isBreak;
   },
 
-  get hasNextBingo(): boolean {
-    return !!store.isBingo || !!store.isBreak;
+  get showNextBingo(): boolean {
+    return !store.isBingo && !store.isBreak && !store.getCurrent && !!store.nextBingo;
   },
 
   get getCurrent(): number | undefined {
@@ -104,7 +104,9 @@ const store = {
 
   async draw() {
     if (!store.canDraw) return;
-    await api.bingo.draw()
+    store.isBingo = false;
+    store.isBreak = false;
+    await Promise.all([api.bingo.draw(), store.publishInfo()])
   },
 
   async doBingo() {
@@ -125,7 +127,7 @@ const store = {
   },
 
   async publishInfo() {
-    await api.bingo.info({ isBingo: store.isBingo, isBreak: store.isBreak, nextBingo: store.nextBingo })
+    await api.bingo.info({ isBingo: store.isBingo, isBreak: store.isBreak, nextBingo: store.nextBingo?.toISOString() })
   }
 }
 
@@ -159,8 +161,8 @@ export const useStore = (): IStore => {
             if (proxyStore.isBreak != bingo.isBreak) {
               proxyStore.isBreak = bingo.isBreak
             }
-            if (proxyStore.nextBingo != bingo.nextBingo) {
-              proxyStore.nextBingo = bingo.nextBingo
+            if (proxyStore.nextBingo != bingo.nextBingo && bingo.nextBingo) {
+              proxyStore.nextBingo = new Date(bingo.nextBingo || '')
             }
             if (proxyStore.isBingo != bingo.isBingo) {
               proxyStore.isBingo = bingo.isBingo

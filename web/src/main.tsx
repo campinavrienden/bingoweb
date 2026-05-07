@@ -1,7 +1,9 @@
 {/* tailwind safelist: shadow-round shadow-red-700 */}
 import { lazy, StrictMode, Suspense } from 'react'
+import './components/FitText'
 import { createRoot } from 'react-dom/client'
 import './index.css'
+
 
 const PublicPage = lazy(() => import('./pages/clientPart'));
 

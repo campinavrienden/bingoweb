@@ -99,11 +99,11 @@ export const ControlsPanel = inject("store")(({ store }: Props) => {
         </div>
         <div className="grid md:grid-cols-2 gap-4 w-full">
           <button
-            className={`text-white font-bingo-overlay py-4 md:px-4  rounded bg-yellow-500 hover:bg-yellow-600 ${store.isBingo && 'animate-pulse' }`}
+            className={`text-white font-bingo-overlay py-4 md:px-4  rounded bg-yellow-500 hover:bg-yellow-600 ${store.isBingo && 'animate-wiggle' }`}
             onClick={() => store.doBingo()}
           >BINGO!</button>
           <button
-            className={`text-white font-bingo-overlay py-4 md:px-4  rounded bg-yellow-600 hover:bg-yellow-700 ${store.isBreak && 'animate-pulse' }`}
+            className={`text-white font-bingo-overlay py-4 md:px-4  rounded bg-yellow-600 hover:bg-yellow-700 ${store.isBreak && 'animate-wiggle' }`}
             onClick={() => store.doBreak()}
           >Pauze</button>
         </div>
