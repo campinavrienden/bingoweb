@@ -106,7 +106,9 @@ const store = {
     if (!store.canDraw) return;
     store.isBingo = false;
     store.isBreak = false;
-    await Promise.all([api.bingo.draw(), store.publishInfo()])
+    await store.publishInfo().then(async () => {
+      await api.bingo.draw();
+    });
   },
 
   async doBingo() {
