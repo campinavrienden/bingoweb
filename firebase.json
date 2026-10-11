@@ -40,9 +40,7 @@
         "destination": "/index.html"
       }
     ],
-    "predeploy": [
-      "cd web && vite build"
-    ]
+    "predeploy": ["pnpm --dir web run build"]
   },
   "functions": {
     "runtime": "nodejs22",

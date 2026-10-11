@@ -46,9 +46,8 @@ const Client = inject("store")(({ store }: Props) => {
               <div className="absolute aspect-square animate-zoom-in w-full max-w-[calc(80vh)]  text-white font-bingo-overlay z-10">
                 <div className="w-full h-full flex items-center text-center">
                   <div className='w-full grid grid-flow-row grid-gap-4'>
-                    <div className='text-2xl'>Volgende bingo</div>
                     <div className='h-[calc(15dvh)] flex items-center'>
-                      <fit-text>{store.nextBingo?.toLocaleDateString('nl-BE', { day: 'numeric', 'month': 'numeric', year: 'numeric' })}</fit-text>
+                      <fit-text>www.campinavrienden.be</fit-text>
                     </div>
                     {/* <div className="text-5xl text-[#BE6DFA]">Moederdagbingo!</div> */}
                   </div>

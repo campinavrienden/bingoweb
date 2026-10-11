@@ -10,7 +10,7 @@ const PublicPage = lazy(() => import('./pages/clientPart'));
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     window.setTimeout(() => {
-      navigator.serviceWorker.register('swJs', { type: 'module' })
+      navigator.serviceWorker.register('sw', { type: 'module' })
         .then(reg => console.log('SW registered', reg))
         .catch(err => console.error('SW registration failed', err));
     }, 500)

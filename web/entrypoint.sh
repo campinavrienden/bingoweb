@@ -6,6 +6,8 @@ node -v
 
 which node
 
+pwd
+
 # Path to runtime-env.js
 export RUNTIME_ENV_PATH="/app/public/runtime-env.js"
 

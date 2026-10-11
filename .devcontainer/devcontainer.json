@@ -4,9 +4,8 @@
     "../docker-compose.dev.yml"
   ],
   "service": "web",
-  "workspaceFolder": "/app",
+  "workspaceFolder": "/workspaces/bingoweb",
   "remoteUser": "root",
-  "postCreateCommand": "ls -all && sudo chmod +x .devcontainer/postCreateCommand.sh && .devcontainer/postCreateCommand.sh",
   "customizations": {
     "vscode": {
       "settings": {
